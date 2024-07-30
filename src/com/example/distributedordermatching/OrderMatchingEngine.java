@@ -8,11 +8,23 @@ public class OrderMatchingEngine {
     private final BlockingQueue<String> sellOrders = new LinkedBlockingQueue<>();
 
     public void addBuyOrder(String order) {
-        buyOrders.add(order);
+        try {
+            buyOrders.put(order);
+            System.out.printf("Added buy order: %s%n", order);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.printf("Failed to add buy order: %s%n", e.getMessage());
+        }
     }
 
     public void addSellOrder(String order) {
-        sellOrders.add(order);
+        try {
+            sellOrders.put(order);
+            System.out.printf("Added sell order: %s%n", order);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.printf("Failed to add sell order: %s%n", e.getMessage());
+        }
     }
 
     public void matchOrders() {
